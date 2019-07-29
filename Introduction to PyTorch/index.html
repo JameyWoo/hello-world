@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>pytorch笔记1 - 我的文档</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-1.10.2.min.js" defer></script>
+    <script src="../js/bootstrap-3.3.7.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="..">我的文档</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="..">主页</a>
+                            </li>
+                            <li >
+                                <a href="../test/">测试</a>
+                            </li>
+                            <li >
+                                <a href="../Test_dir/test_dir/">第二测试</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">pytorch笔记1</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../Test_dir/test_dir/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a rel="prev" >
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#introduction-to-pytorch">Introduction to PyTorch 笔记</a></li>
+            <li><a href="#part-1-tensors-in-pytorch-solutionipynb">Part 1 - Tensors in PyTorch (Solution).ipynb</a></li>
+            <li><a href="#part-2-neural-networks-in-pytorch-exercisesipynb">Part 2 - Neural Networks in PyTorch (Exercises).ipynb</a></li>
+            <li><a href="#part-3-training-neural-networks-exercisesipynb">Part 3 - Training Neural Networks (Exercises).ipynb</a></li>
+        <li class="main "><a href="#optimizers-require-the-parameters-to-optimize-and-a-learning-rate">Optimizers require the parameters to optimize and a learning rate</a></li>
+            <li><a href="#your-solution-here">Your solution here</a></li>
+        <li class="main "><a href="#printoutputshape">print(output.shape)</a></li>
+        <li class="main "><a href="#printlabelsshape">print(labels.shape)</a></li>
+            <li><a href="#part-4-fashion-mnist-exercisesipynb">Part 4 - Fashion-MNIST (Exercises).ipynb</a></li>
+        <li class="main "><a href="#define-a-transform-to-normalize-the-data">Define a transform to normalize the data</a></li>
+        <li class="main "><a href="#download-and-load-the-training-data">Download and load the training data</a></li>
+        <li class="main "><a href="#download-and-load-the-test-data">Download and load the test data</a></li>
+        <li class="main "><a href="#_1">定义网络结构</a></li>
+        <li class="main "><a href="#_2">用测试集测试正确率</a></li>
+            <li><a href="#part-5-inference-and-validation-exercisesipynb">Part 5 - Inference and Validation (Exercises).ipynb</a></li>
+            <li><a href="#todo-define-your-model-with-dropout-added">TODO: Define your model with dropout added</a></li>
+            <li><a href="#part-6-saving-and-loading-modelsipynb">Part 6 - Saving and Loading Models.ipynb</a></li>
+            <li><a href="#part-7-loading-image-data-exercisesipynb">Part 7 - Loading Image Data (Exercises).ipynb</a></li>
+        <li class="main "><a href="#todo-compose-transforms-here">TODO: compose transforms here</a></li>
+        <li class="main "><a href="#todo-create-the-imagefolder">TODO: create the ImageFolder</a></li>
+        <li class="main "><a href="#todo-use-the-imagefolder-dataset-to-create-the-dataloader">TODO: use the ImageFolder dataset to create the DataLoader</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="introduction-to-pytorch">Introduction to PyTorch 笔记</h1>
+<h2 id="part-1-tensors-in-pytorch-solutionipynb">Part 1 - Tensors in PyTorch (Solution).ipynb</h2>
+<ol>
+<li>
+<p>最基本的神经网络, 使用矩阵计算. </p>
+</li>
+<li>
+<p>激活函数, sigmoid, softmax, relu等</p>
+</li>
+<li>使用pytorch生成随机数(用来初始化weights). 似乎用不同的norm函数影响较大</li>
+<li>介绍了前向传播的实现方式, 矩阵相乘 + 偏置</li>
+<li>矩阵改变形状, 从numpy转化来/去</li>
+</ol>
+<h2 id="part-2-neural-networks-in-pytorch-exercisesipynb">Part 2 - Neural Networks in PyTorch (Exercises).ipynb</h2>
+<ol>
+<li>
+<p>加载MNIST数据集, 设置是训练或者测试, 用DataLoader进行分批加载, 可设置随机化</p>
+</li>
+<li>
+<p>使用了transforms转换器转换数据, 比如归一化, 转化为tensor, 改变图片大小等</p>
+<p><code>python
+train_transforms = transforms.Compose([transforms.RandomRotation(30),
+                                       transforms.RandomResizedCrop(224),
+                                       transforms.RandomHorizontalFlip(),
+                                       transforms.ToTensor(),
+                                       transforms.Normalize([0.5, 0.5, 0.5], 
+                                                            [0.5, 0.5, 0.5])])</code></p>
+</li>
+<li>
+<p>练习自定义网络权重, 并实现网络的前向传播</p>
+</li>
+<li>
+<p>自己用pytorch实现了softmax. 使用sum, argmax等函数需要注意设置dim</p>
+<p><code>python
+def softmax(x):
+    return torch.exp(out) / torch.exp(out).sum(dim=1).view(64, 1)</code></p>
+</li>
+<li>
+<p>自定义网络结构(class方式), 继承自nn.Module. 自定义层次, 激活函数等, 实现init, forward函数</p>
+<p>```py
+class Network(nn.Module):
+    def <strong>init</strong>(self):
+        super().<strong>init</strong>()</p>
+<pre><code>    # Inputs to hidden layer linear transformation
+    self.hidden = nn.Linear(784, 256)
+    # Output layer, 10 units - one for each digit
+    self.output = nn.Linear(256, 10)
+
+    # Define sigmoid activation and softmax output 
+    self.sigmoid = nn.Sigmoid()
+    self.softmax = nn.Softmax(dim=1)
+
+def forward(self, x):
+    # Pass the input tensor through each of our operations
+    x = self.hidden(x)
+    x = self.sigmoid(x)
+    x = self.output(x)
+    x = self.softmax(x)
+
+    return x
+</code></pre>
+<p>```</p>
+</li>
+<li>
+<p>有model对象, 可方便地查看模型的权重, 偏置值, 还可以进行更改, 如使用随机值</p>
+</li>
+<li>
+<p>使用nn.Sequential()搭建网络, 和之前其实类似</p>
+<p><code>py
+model = nn.Sequential(nn.Linear(input_size, hidden_sizes[0]),
+                      nn.ReLU(),
+                      nn.Linear(hidden_sizes[0], hidden_sizes[1]),
+                      nn.ReLU(),
+                      nn.Linear(hidden_sizes[1], output_size),
+                      nn.Softmax(dim=1))</code></p>
+</li>
+<li>
+<p>多次出现helper辅助代码, 实现一些功能, 如下所示</p>
+</li>
+</ol>
+<pre><code>import matplotlib.pyplot as plt
+import numpy as np
+from torch import nn, optim
+from torch.autograd import Variable
+
+
+def test_network(net, trainloader):
+
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(net.parameters(), lr=0.001)
+
+    dataiter = iter(trainloader)
+    images, labels = dataiter.next()
+
+    # Create Variables for the inputs and targets
+    inputs = Variable(images)
+    targets = Variable(images)
+
+    # Clear the gradients from all Variables
+    optimizer.zero_grad()
+
+    # Forward pass, then backward pass, then update weights
+    output = net.forward(inputs)
+    loss = criterion(output, targets)
+    loss.backward()
+    optimizer.step()
+
+    return True
+
+
+def imshow(image, ax=None, title=None, normalize=True):
+    &quot;&quot;&quot;Imshow for Tensor.&quot;&quot;&quot;
+    if ax is None:
+        fig, ax = plt.subplots()
+    image = image.numpy().transpose((1, 2, 0))
+
+    if normalize:
+        mean = np.array([0.485, 0.456, 0.406])
+        std = np.array([0.229, 0.224, 0.225])
+        image = std * image + mean
+        image = np.clip(image, 0, 1)
+
+    ax.imshow(image)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.tick_params(axis='both', length=0)
+    ax.set_xticklabels('')
+    ax.set_yticklabels('')
+
+    return ax
+
+
+def view_recon(img, recon):
+    ''' Function for displaying an image (as a PyTorch Tensor) and its
+        reconstruction also a PyTorch Tensor
+    '''
+
+    fig, axes = plt.subplots(ncols=2, sharex=True, sharey=True)
+    axes[0].imshow(img.numpy().squeeze())
+    axes[1].imshow(recon.data.numpy().squeeze())
+    for ax in axes:
+        ax.axis('off')
+        ax.set_adjustable('box-forced')
+
+def view_classify(img, ps, version=&quot;MNIST&quot;):
+    ''' Function for viewing an image and it's predicted classes.
+    '''
+    ps = ps.data.numpy().squeeze()
+
+    fig, (ax1, ax2) = plt.subplots(figsize=(6,9), ncols=2)
+    ax1.imshow(img.resize_(1, 28, 28).numpy().squeeze())
+    ax1.axis('off')
+    ax2.barh(np.arange(10), ps)
+    ax2.set_aspect(0.1)
+    ax2.set_yticks(np.arange(10))
+    if version == &quot;MNIST&quot;:
+        ax2.set_yticklabels(np.arange(10))
+    elif version == &quot;Fashion&quot;:
+        ax2.set_yticklabels(['T-shirt/top',
+                            'Trouser',
+                            'Pullover',
+                            'Dress',
+                            'Coat',
+                            'Sandal',
+                            'Shirt',
+                            'Sneaker',
+                            'Bag',
+                            'Ankle Boot'], size='small');
+    ax2.set_title('Class Probability')
+    ax2.set_xlim(0, 1.1)
+
+    plt.tight_layout()
+</code></pre>
+
+<h2 id="part-3-training-neural-networks-exercisesipynb">Part 3 - Training Neural Networks (Exercises).ipynb</h2>
+<ol>
+<li>梯度下降与反向传播. 反向传播算法是求导过程中链式法则的应用
+    $$
+    \large \frac{\partial \ell}{\partial W_1} = \frac{\partial L_1}{\partial W_1} \frac{\partial S}{\partial L_1} \frac{\partial L_2}{\partial S} \frac{\partial \ell}{\partial L_2}
+    $$</li>
+</ol>
+<p>$$
+\large W^\prime_1 = W_1 - \alpha \frac{\partial \ell}{\partial W_1}
+$$</p>
+<ol>
+<li>
+<p>通常会导入的包</p>
+<p><code>py
+import torch
+from torch import nn
+import torch.nn.functional as F
+from torchvision import datasets, transforms</code></p>
+</li>
+<li>
+<p>介绍了损失函数. </p>
+<p>比如交叉熵nn.CrossEntropyLoss(), 一般赋值给criterion</p>
+<p>还有比如nn.NLLLoss()</p>
+</li>
+<li>
+<p>介绍了自动求导autograd, 调用.backward()可查看导数</p>
+</li>
+<li>
+<p>介绍了optimizer, 在torch.optim中. 有SGD(随机梯度下降等). Adam更好. </p>
+<p>```py
+from torch import optim</p>
+<h1 id="optimizers-require-the-parameters-to-optimize-and-a-learning-rate">Optimizers require the parameters to optimize and a learning rate</h1>
+<p>optimizer = optim.SGD(model.parameters(), lr=0.01)
+```</p>
+</li>
+<li>
+<p>训练中记得清零梯度<code>optimizer.zero_grad()</code></p>
+</li>
+<li>
+<p>optimizer调用step()方法更新模型的权重</p>
+</li>
+<li>
+<p>一个较完整的训练过程</p>
+<p>```py</p>
+<h2 id="your-solution-here">Your solution here</h2>
+<p>model = nn.Sequential(nn.Linear(784, 128),
+                      nn.ReLU(),
+                      nn.Linear(128, 64),
+                      nn.ReLU(),
+                      nn.Linear(64, 10),
+                      nn.LogSoftmax(dim=1))</p>
+<p>criterion = nn.NLLLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.003)</p>
+<p>epochs = 5
+for e in range(epochs):
+    running_loss = 0
+    for images, labels in trainloader:
+        # Flatten MNIST images into a 784 long vector
+        images = images.view(images.shape[0], -1)</p>
+<pre><code>    # TODO: Training pass
+    optimizer.zero_grad()
+    output = model.forward(images)
+</code></pre>
+<h1 id="printoutputshape">print(output.shape)</h1>
+<h1 id="printlabelsshape">print(labels.shape)</h1>
+<pre><code>    loss = criterion(output, labels)
+
+    running_loss += loss.item()
+
+    loss.backward()
+    optimizer.step()
+else:
+    print(f"Training loss: {running_loss/len(trainloader)}")
+</code></pre>
+<p>```</p>
+</li>
+</ol>
+<h2 id="part-4-fashion-mnist-exercisesipynb">Part 4 - Fashion-MNIST (Exercises).ipynb</h2>
+<p>使用pytorch对数据集Fashion-MNIST进行分类的练习, 有如下过程</p>
+<ol>
+<li>导入必要的库</li>
+<li>导入数据集并格式化</li>
+<li>定义网络结构</li>
+<li>定义optimizer, loss函数等</li>
+<li>开始训练, 分epoch和batch</li>
+<li>前向传播后计算损失函数, 求梯度, 反向传播更新权重</li>
+<li>训练结束, 输出正确率, 损失值等等</li>
+</ol>
+<p>完整代码如下</p>
+<p>```pyimport torch
+import torch.nn.functional as F</p>
+<p>from torch import nn, optim
+from torchvision import datasets, transforms</p>
+<h1 id="define-a-transform-to-normalize-the-data">Define a transform to normalize the data</h1>
+<p>transform = transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize((0.5,), (0.5,))])</p>
+<h1 id="download-and-load-the-training-data">Download and load the training data</h1>
+<p>trainset = datasets.FashionMNIST('~/.pytorch/F_MNIST_data/', download=True, train=True, transform=transform)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)</p>
+<h1 id="download-and-load-the-test-data">Download and load the test data</h1>
+<p>testset = datasets.FashionMNIST('~/.pytorch/F_MNIST_data/', download=True, train=False, transform=transform)
+testloader = torch.utils.data.DataLoader(testset, batch_size=64, shuffle=True)</p>
+<h1 id="_1">定义网络结构</h1>
+<p>class MyFashionMnist(nn.Module):
+  def <strong>init</strong>(self):
+    super().<strong>init</strong>()
+    self.fc1 = nn.Linear(784, 256)
+    self.fc2 = nn.Linear(256, 64)
+    self.fc3 = nn.Linear(64, 10)</p>
+<p>def forward(self, x):
+    x = x.view(-1, 784)
+    x = F.relu(self.fc1(x))
+    x = F.relu(self.fc2(x))
+    x = F.log_softmax(self.fc3(x))</p>
+<pre><code>return x
+</code></pre>
+<p>model = MyFashionMnist()</p>
+<p>optimizer = optim.Adam(model.parameters(), lr=0.003)</p>
+<p>criterion = nn.NLLLoss()</p>
+<p>epochs = 20</p>
+<p>for e in range(epochs):
+  running_loss = 0 # 损失
+  for images, labels in trainloader:
+    output = model(images)
+    loss = criterion(output, labels)</p>
+<pre><code>optimizer.zero_grad()
+loss.backward()
+optimizer.step()
+
+running_loss += loss.item()
+</code></pre>
+<p>else:
+    print("loss: ", running_loss / len(trainloader))</p>
+<p>sum = correct = 0</p>
+<h1 id="_2">用测试集测试正确率</h1>
+<p>for images, labels in testloader:
+  output = torch.exp(model(images))
+  result = torch.argmax(output, dim=1)
+  correct += (result == labels).sum()
+  sum += len(images)</p>
+<p>print("correct = ", correct.item())
+print("sum = ", sum)
+print("rate = {}".format(correct.item() / sum))</p>
+<pre><code>
+
+
+写了一份基于keras的代码做对比, 过程是类似的. 相对而言keras更黑箱所以代码短一些
+
+```py
+import tensorflow as tf
+from tensorflow.keras import datasets, models, layers
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+(train_images, train_labels), (test_images, test_labels) = datasets.fashion_mnist.load_data()
+train_images = tf.reshape(train_images, [-1, 784])
+test_images = tf.reshape(test_images, [-1, 784])
+
+print(train_images.shape, train_labels.shape, test_images.shape, test_labels.shape)
+
+model = models.Sequential()
+model.add(layers.Dense(256, activation='relu', input_shape=(784, )))
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))
+print(&quot;model build!&quot;)
+
+model.compile(optimizer='rmsprop',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# 将训练集随机化
+idx = tf.range(len(train_images))
+idx = tf.random.shuffle(idx)
+print(idx)
+train_images = tf.gather(train_images, indices=idx)
+# train_images = train_images[idx]
+train_labels = tf.gather(train_labels, indices=idx)
+# train_labels = train_labels[idx]
+
+# 将label转化成one hot
+train_labels = tf.one_hot(train_labels, depth=10)
+test_labels = tf.one_hot(test_labels, depth=10)
+
+# 划分出训练集和验证集
+partial_x_train = train_images[3000:]
+x_val = train_images[:3000]
+partial_y_train = train_labels[3000:]
+y_val = train_labels[:3000]
+
+print(partial_x_train.shape, partial_y_train.shape, x_val.shape, y_val.shape)
+
+history = model.fit(partial_x_train,
+                    partial_y_train,
+                    epochs=20,
+                    batch_size=64,
+                    validation_data=(x_val, y_val))
+
+result = model.evaluate(test_images, test_labels)
+</code></pre>
+
+<p>差别是:</p>
+<ol>
+<li>keras的训练起来要比pytorch快得多. 不知道是不是因为keras在gpu条件满足情况下自动调用了gpu, 而pytorch用的是cpu</li>
+<li>准确率用pytorch写的反而要高, 这么一个简单的网络正确率达到了86%-87%, 而反观keras的, 在和pytorch的超参数差不多的情况下, 正确率只有70%左右. 设置其他的超参数才能稍高一些</li>
+</ol>
+<h2 id="part-5-inference-and-validation-exercisesipynb">Part 5 - Inference and Validation (Exercises).ipynb</h2>
+<ol>
+<li>
+<p>这部分主要讲验证, 比如用topk()来衡量正确</p>
+<p>但用topk()时总是出错, 所以后面改用argmax()了</p>
+</li>
+<li>
+<p>介绍了dropout的使用, 可以明显地减少过拟合. 也就是训练时的损失和验证损失差不多, 但同时训练时正确率更低一些</p>
+<p>dropout也真是玄学</p>
+</li>
+<li>
+<p>定义了自己的带dropout层的网络</p>
+<p>```py</p>
+<h2 id="todo-define-your-model-with-dropout-added">TODO: Define your model with dropout added</h2>
+<p>from torch import nn, optim
+import torch.nn.functional as F</p>
+<p>class Classifier(nn.Module):
+    def <strong>init</strong>(self):
+        super().<strong>init</strong>()
+        self.fc1 = nn.Linear(784, 256)
+        self.fc2 = nn.Linear(256, 128)
+        self.fc3 = nn.Linear(128, 64)
+        self.fc4 = nn.Linear(64, 10)</p>
+<pre><code>    self.dropout = nn.Dropout(p=0.2)
+
+def forward(self, x):
+    # make sure input tensor is flattened
+    x = x.view(x.shape[0], -1)
+
+    x = self.dropout(F.relu(self.fc1(x)))
+    x = self.dropout(F.relu(self.fc2(x)))
+    x = self.dropout(F.relu(self.fc3(x)))
+    x = F.log_softmax(self.fc4(x), dim=1)
+
+    return x
+</code></pre>
+<p>```</p>
+</li>
+<li>
+<p>在训练时记录了各个时间点的损失, 所以用下面的代码可以轻松画出损失的变化值, 来判断是否发生过拟合</p>
+<p>```py
+import matplotlib.pyplot as plt</p>
+<p>train_losses = torch.Tensor(train_losses) / len(trainloader)
+test_losses = torch.Tensor(test_losses) / len(testloader)</p>
+<p>plt.plot(train_losses.numpy(), label='train_losses')
+plt.plot(test_losses.numpy(), label='test_losses')
+plt.legend()
+```</p>
+</li>
+<li>
+<p>在验证时需要调用model.eval(), 避免验证进入dropout. 训练时要验证, 验证之后要用model.train()进入训练模式</p>
+</li>
+</ol>
+<h2 id="part-6-saving-and-loading-modelsipynb">Part 6 - Saving and Loading Models.ipynb</h2>
+<p>这部分将如何保存和恢复模型, 因为这一节notebook运行较麻烦原因没有很认真去看...</p>
+<h2 id="part-7-loading-image-data-exercisesipynb">Part 7 - Loading Image Data (Exercises).ipynb</h2>
+<p>这部分讲如何从文件夹中加载数据集</p>
+<ol>
+<li>
+<p>文件夹格式, 主文件夹下有多个子文件夹, 分别代表图片的类别. 可以在这两层文件夹之间加一层来区分训练集和测试集.</p>
+</li>
+<li>
+<p>常规步骤:</p>
+<ol>
+<li>定义转化器transform(改变图片大小, 中心裁剪部分图片, 转化成tensor, 翻转图片等)</li>
+<li>使用datasets.ImageFolder()方法加载数据集</li>
+<li>使用torch.utils.data.DataLoader()方法得到生成器dataloader</li>
+</ol>
+<p>代码实现:</p>
+<p>```py
+data_dir = 'Cat_Dog_data/train'</p>
+<p>transform = transforms.Compose([transforms.Resize(255),
+                               transforms.CenterCrop(224),
+                               transforms.ToTensor()])</p>
+<h1 id="todo-compose-transforms-here">TODO: compose transforms here</h1>
+<p>dataset = datasets.ImageFolder(data_dir, transform=transform)</p>
+<h1 id="todo-create-the-imagefolder">TODO: create the ImageFolder</h1>
+<p>dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)</p>
+<h1 id="todo-use-the-imagefolder-dataset-to-create-the-dataloader">TODO: use the ImageFolder dataset to create the DataLoader</h1>
+<p>```</p>
+</li>
+<li>
+<p>最后一部分是用之前所学网络结构实现猫狗分类(老师说很可能不成功, 因为之前只学了full connection net, 且只训练过MNIST这种简单的数据集, 像这种彩色的, 大图片的分类, 那些简单的网络可能效果非常不好, 所以我没尝试)</p>
+</li>
+</ol></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
